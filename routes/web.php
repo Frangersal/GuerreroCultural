@@ -1,7 +1,9 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Models\User;
 
 Route::get('/', function () {
-    return view('welcome');
+    $user = User::first(); // toma el primer usuario
+    return view('welcome', compact('user'));
 });

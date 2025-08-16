@@ -85,7 +85,7 @@ The Laravel framework is open-sourced software licensed under the [MIT license](
             //'password' => env('DB_PASSWORD', ''),
 ```
 - En `.env` la mayor parte podemos copiarlo íntegramente como esta el código, excepto por algunos cambios como...
-- Cambiar variable `APP_URL` en producción por el enlace que generes automaticamente.
+- Cambiar variable `APP_URL` en producción por el enlace que generes automaticamente en `Settings > Networking > Public Networking > +Generate Domain`
 - Cambiar `DB_` datos en producción. 
 ```
     DB_CONNECTION="mysql"

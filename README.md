@@ -59,3 +59,38 @@ If you discover a security vulnerability within Laravel, please send an e-mail t
 ## License
 
 The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+
+## Deploy Laravel en Railway
+- En el archivo: `config/database.php` en mysql comentar host, port, database, username y password
+```php
+        'mysql' => [
+            'driver' => 'mysql',
+            'url' => env('DB_URL'),
+            // 'host' => env('DB_HOST', '127.0.0.1'),
+            // 'port' => env('DB_PORT', '3306'),
+            // 'database' => env('DB_DATABASE', 'laravel'),
+            // 'username' => env('DB_USERNAME', 'root'),
+            //'password' => env('DB_PASSWORD', ''),
+```
+- En `.env` la mayor parte podemos copiarlo íntegramente como esta el código, excepto por algunos cambios como...
+- Cambiar variable APP_URL en producción. <=
+- Cambiar DB_ datos en producción. <=
+```
+    DB_CONNECTION="mysql"
+    DB_URL="${{MySQL.MYSQL_URL}}"
+```
+- Al final una nueva variable en producción. <=
+```
+NIXPACKS_BUILD_CMD="composer install && npm install && npm install --production && php artisan optimize && php artisan config:cache && php artisan route:cache && php artisan view:cache"
+```
+- En Railway: `App > Settings > Deploy > Custom Stert Command` 
+- Usar comando la primera vez
+```
+php artisan migrate --force && php artisan migrate:fresh --seed
+```
+- Cambiar por el siguiente comando
+- Observación importante que dure 12 horas en descubrir, el puerto es el que te asigne el enlace que generaste
+```
+sleep 15 && php artisan migrate --force && php artisan serve --host=0.0.0.0 --port=9000
+```
+

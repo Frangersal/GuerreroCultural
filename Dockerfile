@@ -28,6 +28,9 @@ WORKDIR /var/www/html
 # Configura los permisos correctos.
 RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
 
+# Establece las variables de entorno para que Laravel use MySQL
+ENV DB_CONNECTION=mysql
+
 # Instala las dependencias de Laravel y construye los assets.
 RUN composer install --no-dev --optimize-autoloader --no-scripts \
     && npm install \

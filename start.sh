@@ -1,8 +1,8 @@
 #!/bin/bash
 set -e
 
-# Esperar a que la base de datos esté lista usando las variables de entorno
-until nc -z $DB_HOST $DB_PORT; do
+# Esperar a que la base de datos esté lista
+until curl -s $DB_URL >/dev/null; do
     echo "La base de datos no está lista. Esperando 5 segundos..."
     sleep 5
 done

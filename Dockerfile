@@ -1,7 +1,7 @@
 # Usa la imagen oficial de PHP para Laravel en Alpine Linux, que es ligera.
 FROM php:8.3-fpm-alpine
 
-# Instala las dependencias del sistema y extensiones de PHP.
+# Instala Composer y las dependencias del sistema
 RUN apk add --no-cache \
     nginx \
     libzip-dev \
@@ -12,6 +12,7 @@ RUN apk add --no-cache \
     bash \
     curl \
     git \
+    && curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer \
     && docker-php-ext-install pdo_mysql opcache exif pcntl \
     && docker-php-ext-configure gd --with-jpeg \
     && docker-php-ext-install gd \

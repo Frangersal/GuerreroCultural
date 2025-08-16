@@ -3,8 +3,8 @@ set -e
 
 echo "Esperando a que la base de datos esté lista..."
 
-# Ejecuta el script de PHP para verificar la conexión
-until php db_check.php; do
+# Pasa las variables de entorno de la base de datos directamente al script de PHP
+until php db_check.php "$DB_HOST" "$DB_PORT" "$DB_DATABASE" "$DB_USERNAME" "$DB_PASSWORD"; do
     echo "La base de datos no está lista. Esperando 5 segundos..."
     sleep 5
 done

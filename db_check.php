@@ -1,9 +1,9 @@
 <?php
-$host = getenv('DB_HOST');
-$port = getenv('DB_PORT');
-$database = getenv('DB_DATABASE');
-$username = getenv('DB_USERNAME');
-$password = getenv('DB_PASSWORD');
+$host = $argv[1];
+$port = $argv[2];
+$database = $argv[3];
+$username = $argv[4];
+$password = $argv[5];
 
 try {
     new PDO("mysql:host=$host;port=$port;dbname=$database", $username, $password);

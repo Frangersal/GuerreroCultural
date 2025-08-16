@@ -32,13 +32,11 @@ RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cac
 ENV DB_CONNECTION=mysql
 
 # Instala las dependencias de Laravel y construye los assets.
+# (Estos comandos no necesitan la base de datos)
 RUN composer install --no-dev --optimize-autoloader --no-scripts \
     && npm install \
-    && npm run build \
-    && php artisan cache:clear \
-    && php artisan view:clear \
-    && php artisan config:clear
-
+    && npm run build
+    
 # Exponer el puerto para Nginx.
 EXPOSE 8000
 

@@ -2,8 +2,7 @@
 set -e
 
 # Esperar a que la base de datos esté lista
-# Los intentos de conexión se hacen hasta que la conexión sea exitosa
-until php artisan migrate:status > /dev/null 2>&1; do
+until nc -z ${{MySQL.HOST}} ${{MySQL.PORT}}; do
     echo "La base de datos no está lista. Esperando 5 segundos..."
     sleep 5
 done

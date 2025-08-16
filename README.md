@@ -59,6 +59,18 @@ If you discover a security vulnerability within Laravel, please send an e-mail t
 ## License
 
 The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+## Instalacion de forma Local
+```
+    php -v
+    composer -v
+    node -v
+    npm -v
+    composer create-project laravel/laravel GuerreroCultural
+    php artisan key:generate
+    php artisan serve
+    php artisan migrate
+    php artisan make:seeder UserSeeder
+```
 
 ## Deploy Laravel en Railway
 - En el archivo: `config/database.php` en mysql comentar host, port, database, username y password
@@ -73,13 +85,13 @@ The Laravel framework is open-sourced software licensed under the [MIT license](
             //'password' => env('DB_PASSWORD', ''),
 ```
 - En `.env` la mayor parte podemos copiarlo íntegramente como esta el código, excepto por algunos cambios como...
-- Cambiar variable APP_URL en producción. <=
-- Cambiar DB_ datos en producción. <=
+- Cambiar variable `APP_URL` en producción por el enlace que generes automaticamente.
+- Cambiar `DB_` datos en producción. 
 ```
     DB_CONNECTION="mysql"
     DB_URL="${{MySQL.MYSQL_URL}}"
 ```
-- Al final una nueva variable en producción. <=
+- Al final una nueva variable llamada `NIXPACKS_BUILD_CMD` en producción.
 ```
 NIXPACKS_BUILD_CMD="composer install && npm install && npm install --production && php artisan optimize && php artisan config:cache && php artisan route:cache && php artisan view:cache"
 ```

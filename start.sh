@@ -3,8 +3,8 @@ set -e
 
 echo "Esperando a que la base de datos esté lista..."
 
-# Usa telnet para verificar la conexión al puerto
-until telnet $DB_HOST $DB_PORT | grep -q 'Connected'; do
+# Bucle de espera usando un script de PHP para verificar la conexión
+until php -r "try { new PDO('mysql:host=$DB_HOST;port=$DB_PORT;dbname=$DB_DATABASE', '$DB_USERNAME', '$DB_PASSWORD'); } catch (PDOException \$e) { exit(1); }"; do
   echo "La base de datos no está lista. Esperando 5 segundos..."
   sleep 5
 done

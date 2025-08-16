@@ -3,8 +3,8 @@ set -e
 
 echo "Esperando a que la base de datos esté lista..."
 
-# Espera hasta que la base de datos esté lista
-until nc -z $DB_HOST $DB_PORT; do
+# Usa telnet para verificar la conexión al puerto
+until telnet $DB_HOST $DB_PORT | grep -q 'Connected'; do
   echo "La base de datos no está lista. Esperando 5 segundos..."
   sleep 5
 done

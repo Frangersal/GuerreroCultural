@@ -13,7 +13,6 @@ RUN apk add --no-cache \
     curl \
     git \
     netcat-openbsd \
-    busybox-telnetd \
     && curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer \
     && docker-php-ext-install pdo_mysql opcache exif pcntl \
     && docker-php-ext-configure gd --with-jpeg \

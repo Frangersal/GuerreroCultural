@@ -1,15 +1,43 @@
-#!/bin/bash
+# Usa la imagen oficial de PHP para Laravel en Alpine Linux, que es ligera.
+FROM php:8.3-fpm-alpine
 
-# Esperar a que la base de datos esté lista usando el puerto.
-until nc -z $DB_HOST $DB_PORT; do
-    echo "La base de datos no está lista. Esperando 5 segundos..."
-    sleep 5
-done
+# Instala Composer y las dependencias del sistema
+COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
+RUN apk add --no-cache \
+    nginx \
+    libzip-dev \
+    libpng-dev \
+    libjpeg-turbo-dev \
+    mariadb-client \
+    npm \
+    bash \
+    curl \
+    git \
+    && docker-php-ext-install pdo_mysql opcache exif pcntl \
+    && docker-php-ext-configure gd --with-jpeg \
+    && docker-php-ext-install gd \
+    && chown -R www-data:www-data /var/www/html \
+    && rm -rf /var/cache/apk/*
 
-echo "¡La base de datos está lista! Procediendo..."
+# Copia los archivos de tu proyecto al contenedor.
+COPY . /var/www/html/
 
-# Ejecutar las migraciones.
-php artisan migrate --force
+# Establece el directorio de trabajo.
+WORKDIR /var/www/html
 
-# Iniciar el servidor web de PHP para la aplicación.
-php artisan serve --host=0.0.0.0 --port=8000
+# Configura los permisos correctos.
+RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
+
+# Instala las dependencias de Laravel y construye los assets.
+RUN composer install --no-dev --optimize-autoloader --no-scripts \
+    && npm install \
+    && npm run build \
+    && php artisan cache:clear \
+    && php artisan view:clear \
+    && php artisan config:clear
+
+# Exponer el puerto para Nginx.
+EXPOSE 8000
+
+# Comando de inicio del contenedor.
+CMD ["bash", "start.sh"]

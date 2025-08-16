@@ -3,8 +3,8 @@ set -e
 
 echo "Esperando a que la base de datos esté lista..."
 
-# Usa un comando nc más robusto para verificar la conexión al puerto
-while ! nc -w 1 $DB_HOST $DB_PORT < /dev/null; do
+# Usa un ping simple para verificar la conexión al host
+until ping -c 1 $DB_HOST > /dev/null 2>&1; do
     echo "La base de datos no está lista. Esperando 5 segundos..."
     sleep 5
 done
